@@ -23,20 +23,64 @@ export const ToDoListProvider= ({children})=>{
      const ifwalletisconnected= async()=>{
         if(!window.ethereum) return setError("Please install metamask");
         const account= await window.ethereum.request({method:"eth_accounts"});
-
+        //console.log(account[0]);
         if(account.length){
             setCurrentAccount(account[0]);
             console.log(account[0]);
+           // console.log("Heloo");
         }else{
             setError("Please install metamask &connect and reload");
         }
      };
-    //  useEffect (()=>{
-    //     ifwalletisconnected() ;
-    //  },[]);
+
+     //connect wallet 
+     //Requesting user to connect their wallet 
+     const connectwallet = async()=> {
+        if(!window.ethereum) return setError("Please install metamask");
+        const account= await window.ethereum.request({method:"eth_requestAccounts"});
+
+        setCurrentAccount(account[0]);
+     }
+
+     // Interacting with smart contract
+     
+     const  toDolist= async()=>{
+       // console.log("Heloo");
+        try{
+
+           
+            //coonecting with smart contract 
+            //Here setting up the stage
+            //One kind of like the making connection with the DBMS in MYSQL 
+          const web3Modal = new Web3Modal();
+          const connection = await web3Modal.connect();
+         // console.log(connection);
+         const provider = new ethers.providers.Web3Provider(connection);
+         const signer = provider.getSigner();
+         const contract = await fetchContract(signer);
+            
+            console.log(contract);
+           //
+
+
+
+
+
+        } catch(error){
+            setError("Something wrong with creating list ")
+        }
+
+     }
+
+
+
+
+
+
+    
 
     return (
-        <ToDoListContext.Provider value={{ifwalletisconnected}}>
+        <ToDoListContext.Provider value={{ifwalletisconnected,toDolist,connectwallet}}>
             {children}
         </ToDoListContext.Provider>
     )

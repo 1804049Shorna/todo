@@ -1,7 +1,7 @@
 import '@/styles/globals.css'
 
 //internal impot 
-import {ToDoListProvider} from '../context/constants';
+import {ToDoListProvider} from '../context/ToDolistApp';
 
 const MyApp = ({ Component, pageProps }) => (
 

@@ -1,4 +1,6 @@
 import React,{useState,useEffect,useContext} from "react";
+import {Mdverified} from 'react';
+
 
 //internal import 
 
@@ -6,11 +8,13 @@ import { ToDoListContext } from "@/context/ToDolistApp";
 
 
 const Home=()=>{
-   const{ifwalllweifwalletisconnected}=useContext(ToDoListContext);
-
+   const{ifwalletisconnected,toDolist}=useContext(ToDoListContext);
+   toDolist();
     useEffect (()=>{
-        ifwalletisconnected() ;
-     },[]);
+        
+        ifwalletisconnected();
+        toDolist();
+     },[])
 
 
   return (
