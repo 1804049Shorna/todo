@@ -13,11 +13,11 @@ const fetchContract = (signerorProvider)=> new ethers.Contract(toDoListAddress,t
 export const ToDoListContext= React.createContext();
 export const ToDoListProvider= ({children})=>{
     
-    const[cuurentAccount,setCurrentAccount]=useState();
-    const[error ,setError]=useState();
-    const[allToDoList,setAllToDoList]=useState();
-    const[myList,setMyList]=useState();
-    const [allAdress, setAllAddress]=useState();
+    const[cuurentAccount,setCurrentAccount]=useState("");
+    const[error ,setError]=useState("");
+    const[allToDoList,setAllToDoList]=useState([]);
+    const[myList,setMyList]=useState([]);
+    const [allAdress, setAllAddress]=useState([]);
 
     //connecting metamask
      const ifwalletisconnected= async()=>{
@@ -25,7 +25,7 @@ export const ToDoListProvider= ({children})=>{
         const account= await window.ethereum.request({method:"eth_accounts"});
 
         if(account.length){
-            setCurrentAccount=account[0];
+            setCurrentAccount(account[0]);
             console.log(account[0]);
         }else{
             setError("Please install metamask &connect and reload");
