@@ -46,20 +46,22 @@ export const ToDoListProvider= ({children})=>{
      
      const  toDolist= async()=>{
        // console.log("Heloo");
-        try{
+       
+       try{
 
            
            // coonecting with smart contract 
            // Here setting up the stage
            // One kind of like the making connection with the DBMS in MYSQL 
-        //   const web3Modal = new Web3Modal();
-        //   const connection = await web3Modal.connect();
-        //  console.log(connection);
-        //  const provider = new ethers.providers.Web3Provider(connection);
-        //  const signer = provider.getSigner();
-        //  const contract = await fetchContract(signer);
+          const web3Modal = new Web3Modal();
+         const connection = await web3Modal.connect();
+        // console.log(connection);
+         const provider = new ethers.providers.Web3Provider(connection);
+         console.log(connection);
+         const signer = provider.getSigner();
+         const contract = await fetchContract(signer);
             
-        //     console.log(contract);
+            console.log(contract);
            
 
 
