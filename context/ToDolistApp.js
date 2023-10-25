@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import Web3Modal from "web3modal";
-
 import { ethers } from "ethers";
+import Web3 from "web3";
 
 // internal imports
 
@@ -43,7 +42,15 @@ export const ToDoListProvider = ({ children }) => {
 
     setCurrentAccount(account[0]);
   };
+  //connecting with smar contract
+  const connectContract = async () => {
+   // console.log(toDoListABI, toDoListAddress);
 
+    window.web3 = await new Web3(window.ethereum);
+    window.contract = await new web3.eth.Contract(toDoListABI, toDoListAddress);
+
+    console.log(window.contract);
+  };
   // Interacting with smart contract
 
   const toDolist = async (message) => {
@@ -51,47 +58,62 @@ export const ToDoListProvider = ({ children }) => {
       // coonecting with smart contract
       // Here setting up the stage
       // One kind of like the making connection with the DBMS in MYSQL
-      const web3Modal = new Web3Modal();
+      //   const web3Modal = new Web3Modal();
 
-      const connection = await web3Modal.connect();
+      //   const connection = await web3Modal.connect();
 
-      const provider = new ethers.providers.Web3Provider(connection);
+      //   const provider = new ethers.providers.Web3Provider(connection);
 
-      const signer = provider.getSigner();
+      //   const signer = provider.getSigner();
 
-      const contract = await fetchContract(signer);
+      //   const contract = await fetchContract(signer);
 
-      const createList =await contract.createList(message);
-      createList.wait();
-      console.log(createList);
+      //   const createList =await contract.createList(message);
+      //   createList.wait();
+
+      window.addEventListener("load", async () => {
+        if (window.ethereum) {
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          console.log(provider);
+          // Rest of your code
+        } else {
+          console.error(
+            "No Ethereum provider found. Please install MetaMask or another compatible wallet."
+          );
+        }
+      });
+
+      // const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+      const signer = await provider.getSigner();
+      const contract = new ethers.Contract(
+        toDoListABI,
+        toDoListAddress,
+        signer
+      );
+
       console.log(contract);
     } catch (error) {
       setError("Something wrong with creating list ");
     }
   };
 
-  const getToDoList=async()=>{
+  const getToDoList = async () => {
     try {
-     const web3Modal = new Web3Modal();
-
-      const connection = await web3Modal.connect();
-
-      const provider = new ethers.providers.Web3Provider(connection);
-
-      const signer = provider.getSigner();
-
-      const contract = await fetchContract(signer);
-
-
-
-    }catch(error){
-        setError("Something wrong ")
+    } catch (error) {
+      setError("Something wrong ");
     }
-  }
+  };
 
   return (
     <ToDoListContext.Provider
-      value={{ ifwalletisconnected, toDolist, connectwallet,getToDoList }}
+      value={{
+        ifwalletisconnected,
+        toDolist,
+        connectwallet,
+        getToDoList,
+        connectContract,
+      }}
     >
       {children}
     </ToDoListContext.Provider>

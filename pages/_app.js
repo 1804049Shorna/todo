@@ -6,7 +6,7 @@ import {ToDoListProvider} from '../context/ToDolistApp';
 const MyApp = ({ Component, pageProps }) => (
 
   <ToDoListProvider>
-    <div> 
+     <div> 
       <Component {...pageProps} />;
       </div>
     
