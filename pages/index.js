@@ -8,12 +8,11 @@ import { ToDoListContext } from "@/context/ToDolistApp";
 
 
 const Home=()=>{
-   const{ifwalletisconnected,toDolist,connectContract}=useContext(ToDoListContext);
+   const{ifwalletisconnected,toDolist}=useContext(ToDoListContext);
   
     useEffect (()=>{
         
         ifwalletisconnected();
-        connectContract();
         toDolist();
      },[])
 
