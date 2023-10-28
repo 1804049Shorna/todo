@@ -69,20 +69,65 @@ export const ToDoListProvider = ({ children }) => {
       setError("Something wrong with creating list ");
     }
   };
-
+    
   const getToDoList = async () => {
     try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const contract =new ethers.Contract(toDoListAddress,toDoListABI,provider);
+         //console.log("heloo contract is here ")
+        // console.log(contract);
+        const getAllAddress=await contract.getAddress();
+        setAllAddress(getAllAddress);
+        console.log(getAllAddress);
+        getAllAddress.map(async(el)=>{
+
+            const getSingleData=await contract.getcreator(el);
+            setAllToDoList.push(getToDoList);
+            console.log(getSingleData);
+        });
+
+        const allMessage= await contract.getMessage();
+        setMyList(allMessage);
+
+        
     } catch (error) {
       setError("Something wrong ");
     }
   };
+
+  //Change state of Todolist 
+  const change=async(address)=>{
+    try{
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const contract =new ethers.Contract(toDoListAddress,toDoListABI,provider);
+        
+        const state=await contract.toogle(address);
+        state.wait();
+        console.log(state);
+    
+    }catch(error){
+        setError("Something Wrong here ");
+    }
+    
+
+  }
 
   return (
     <ToDoListContext.Provider
       value={{
         ifwalletisconnected,
         toDolist,
-        getToDoList
+        getToDoList,
+        change,
+        connectwallet,
+        cuurentAccount,
+        error,
+        allToDoList,
+        myList,
+        allAdress
+
+
+
         
       }}
     >
