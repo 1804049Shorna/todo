@@ -70,7 +70,11 @@ const Home=()=>{
           <div className={Style.home_create_box}>
             <h2>Create Blockchain To Do List</h2>
             <div className={Style.home_create_input}>
-               <input type="Text" placeholder="write your to do" onChange={(e)=>setMessage(e.target.value)}/>
+               <input type="Text" placeholder="write your to do" 
+               onChange={(e)=>setMessage(e.target.value)}/>
+               {cuurentAccount ? (
+                <RiSendPlaneFill className={Style.iconBlack} onClick={()=>toDolist()}/>
+               ) :(<RiSendPlaneFill className={Style.iconBlack} onClick={()=>connectwallet()}/>)}
             </div>
           </div>
         </div>
